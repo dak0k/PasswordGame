@@ -1,0 +1,92 @@
+﻿
+    
+@model GameViewModel
+
+@{
+
+}
+
+
+<script>
+    /**
+    *
+    */
+    function resizeTextarea(textarea)
+    {
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+    }
+    function getQueryParam(name)
+    {
+        const urlParam = new URLSearchParams(window.location.search);
+        return urlParam.get(name);
+    }
+</script>
+
+@{
+    if(!Model.IsPasswordComplete)
+    {
+        <div class="text-center container">
+
+            <p>
+                Enter password:
+            </p>
+            <br>
+            <form action="/Game/CheckPassword" method="GET">
+                <div class="d-flex " style="justify-content: center;
+            gap: 3px;    flex-direction: column;
+            align-content: center;
+            align-items: center;">
+                    <textarea name="password"
+                              id="passwordTextarea"
+                              style="overflow: hidden;
+                    resize:none;
+                    border-radius: 4px;
+                    background-color: #e5e5e5;
+                    "
+                              oninput="resizeTextarea(this)"
+                              cols=60
+                              rows=1>
+                    </textarea>
+
+                    <input type="submit" class="btn btn-success ">
+
+                </div>
+
+            </form>
+            <script>
+                const passwordValue = getQueryParam("password");
+                const textarea = document.getElementById("passwordTextarea");
+
+                textarea.value = passwordValue;
+            </script>
+        </div>
+    }
+
+
+}
+@Html.Raw(Model.HtmlResult)
+
+@{
+    if(Model.IsPasswordComplete)
+    {
+        <div class="container ">
+            <div class="row " style="display: flex;
+        flex-direction: row;
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+        align-items: center;
+        justify-content: center;
+        align-content: center;">
+                <li class="nav-item col-md-6" style="width:17%">
+                    <a asp-controller="Game" asp-action="Index" class="btn btn-success rounded nav-link text-white" style="width:100%">CHANGE</a>
+                </li>
+                <li class="nav-item col-md-6" style="width:12%">
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-primary rounded nav-link text-white" style="width:100%">SAVE</a>
+                </li>
+        </div>
+         
+        </div>
+    }
+}
